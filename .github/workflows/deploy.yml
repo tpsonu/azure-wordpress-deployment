@@ -11,10 +11,11 @@ jobs:
         username: ${{ secrets.AZURE_VM_USERNAME }}
         key: ${{ secrets.AZURE_VM_SSH_KEY }}
         script: |
-          cd /home/azureuser
-          sudo git clone https://github.com/tpsonu/azure-wordpress-deployment.git /var/www/html-temp
-          sudo rsync -av /var/www/html-temp/ /var/www/html/ --delete
+          cd /var/www/html
+          sudo git init
+          sudo git remote add origin https://github.com/tpsonu/azure-wordpress-deployment.git
+          sudo git fetch origin main
+          sudo git reset --hard origin/main
           sudo chown -R www-data:www-data /var/www/html/
-          sudo chmod -R 755 /var/www/html/
           sudo systemctl restart apache2
           echo "Deployed: $(date)" > /var/www/html/deployment.txt
