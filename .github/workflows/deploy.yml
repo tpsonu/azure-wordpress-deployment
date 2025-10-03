@@ -19,4 +19,4 @@ jobs:
           sudo chown -R www-data:www-data /var/www/html/
           sudo chmod -R 755 /var/www/html/
           sudo systemctl restart apache2
-          sudo echo "Deployed: $(date)" > /var/www/html/deployment.txt
+          sudo bash -c 'echo "Deployed: $(date)" > /var/www/html/deployment.txt'
