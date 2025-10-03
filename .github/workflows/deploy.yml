@@ -15,4 +15,5 @@ jobs:
           echo "Connected successfully!"
           cd /var/www/html
           ls -la
-          echo "Test deployment $(date)" > test.txt
+          sudo bash -c 'echo "Test deployment $(date)" > test.txt'
+          echo "File created successfully!"
