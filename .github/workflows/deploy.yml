@@ -12,8 +12,10 @@ jobs:
         username: ${{ secrets.AZURE_VM_USERNAME }}
         key: ${{ secrets.AZURE_VM_SSH_KEY }}
         script: |
-          echo "Connected successfully!"
           cd /var/www/html
-          ls -la
-          sudo bash -c 'echo "Test deployment $(date)" > test.txt'
-          echo "File created successfully!"
+          sudo git fetch origin main
+          sudo git reset --hard origin/main
+          sudo chown -R www-data:www-data /var/www/html/
+          sudo chmod -R 755 /var/www/html/
+          sudo systemctl restart apache2
+          echo "Deployed: $(date)" > /var/www/html/deployment.txt
