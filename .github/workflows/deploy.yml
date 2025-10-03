@@ -15,8 +15,13 @@ jobs:
           cd /home/azureuser
           sudo rm -rf /var/www/html-temp
           sudo git clone https://github.com/tpsonu/azure-wordpress-deployment.git /var/www/html-temp
-          sudo rsync -av /var/www/html-temp/ /var/www/html/ --delete
+          # Backup wp-config.php before sync
+          sudo cp /var/www/html/wp-config.php /tmp/wp-config-backup.php
+          sudo rsync -av /var/www/html-temp/ /var/www/html/ --delete --exclude='wp-config.php'
+          # Restore wp-config.php
+          sudo cp /tmp/wp-config-backup.php /var/www/html/wp-config.php
           sudo chown -R www-data:www-data /var/www/html/
           sudo chmod -R 755 /var/www/html/
+          sudo chmod 644 /var/www/html/wp-config.php
           sudo systemctl restart apache2
           sudo bash -c 'echo "Deployed: $(date)" > /var/www/html/deployment.txt'
